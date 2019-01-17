@@ -1,0 +1,49 @@
+//https://create.arduino.cc/projecthub/ozyRonald/alarm-clock-and-timer-working-standalone-b683db?ref=tag&ref_id=timer&offset=3
+
+#include <EEPROM.h>
+#include <Pushbutton.h>
+#include <EEPROM.h>
+#include <RTClib.h>
+#include <LCD.h>
+#include <LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
+#include <Wire.h>
+
+LiquidCrystal_I2C lcd(0x3F, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
+RTC_DS1307 RTC;
+
+const int DS1307 = 0x68;
+const int lightAlarm = 6; // sets the led to pin 6
+const int selectButton = 5; //sets a button to have a selection to the timer management
+const int nextButton = 4;
+const int unpButton = 3;
+const int downButton = 2;
+const int alarmButton = alarmSel; //alarmSel is a later function
+const boolean alarmSystem = 7;
+const boolean timerForLED = 8;
+
+
+Servo servo;
+
+int posit = 0;
+int userHour = ; //sets the hour of the day for when the user wants/needs to take the medication
+int userMinute = ; //sets the minute(if necessary) for when the medication needs to be taken 
+
+void setup() {
+  // put your setup code here, to run once:
+    servo.attach(8);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+    for (posit = 0; posit <= 180; posit += 1) {
+      servo.write(posit);
+      delay(15);
+    }
+    for(posit = 180; posit >= 0; posit -= 1) {
+      servo.write(posit);
+      delay(15);
+    }
+
+    
+}
