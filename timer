@@ -15,13 +15,16 @@ RTC_DS1307 RTC;
 const int DS1307 = 0x68;
 const int lightAlarm = 6; // sets the led to pin 6
 const int selectButton = 5; //sets a button to have a selection to the timer management
-const int nextButton = 4;
-const int unpButton = 3;
-const int downButton = 2;
+const int nextButtonPin = 4;
+const int upButtonPin = 3;
+const int downButtonPin = 2;
 const int alarmButton = alarmSel; //alarmSel is a later function
 const boolean alarmSystem = 7;
 const boolean timerForLED = 8;
 
+Pushbutton nextButton(nextButtonPin);
+Pushbutton upButton(upButtonPin);
+Pushbutton downButton(downButtonPin);
 
 Servo servo;
 
