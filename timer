@@ -29,16 +29,47 @@ Pushbutton alarmButton(alarmButtonPin);
 
 enum mainSelection {
   ALARM_SWITCH = 1;
-  
+  ALARM_START,
+  ALARM_SET,
+  CLOCK_SET,
+  ALARM_AUTO,
+  RUN_CLOCK
 
-}
+};
+
+enum mainSelection key = RUN_CLOCK;
+
+int alarmMinuteStart = 1;
+int alarmHourStart = 1;
+int alarmMinuteStop = 2;
+int alarmHourStop = 2;
+int alarmPlus = 0; //Working hours of the lights; Maximum of 6
+boolean alarmOnOff = false;
+boolean autoManual = false; //Timer being automatic or manual
+int alarmOffset = 6;
+int yr = 2000;
+int mo = 1;
+int dy = 1;
+int hr = 0;
+int mn = 0;
+int setYr = 00;
+int setMo = 1;
+int setDy = 1;
+int setHr = 0;
+int setMn = 0;
+boolean dayLightSaving = false;
+boolean aBlink = true;
+const int loopCheckMax = 80; //Duration of the loops in the settings
+int loopCheck = 0; //To control if there is any interaction
+unsigned long clockDisplayCheck = millis();
+int lcdDisplayCheck = 0; //Counter for controling the time the lcd will be on
+boolean timerLight = false; //Set the relays for the alarm lights
+int tiemrLightStage = 0;
 
 
 Servo servo;
 
 int posit = 0;
-int userHour = ; //sets the hour of the day for when the user wants/needs to take the medication
-int userMinute = ; //sets the minute(if necessary) for when the medication needs to be taken 
 
 void setup() {
   // put your setup code here, to run once:
