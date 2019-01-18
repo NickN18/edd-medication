@@ -18,13 +18,21 @@ const int selectButton = 5; //sets a button to have a selection to the timer man
 const int nextButtonPin = 4;
 const int upButtonPin = 3;
 const int downButtonPin = 2;
-const int alarmButton = alarmSel; //alarmSel is a later function
+const int alarmButtonPin = alarmSel; //alarmSel is a later function
 const boolean alarmSystem = 7;
 const boolean timerForLED = 8;
 
 Pushbutton nextButton(nextButtonPin);
 Pushbutton upButton(upButtonPin);
 Pushbutton downButton(downButtonPin);
+Pushbutton alarmButton(alarmButtonPin);
+
+enum mainSelection {
+  ALARM_SWITCH = 1;
+  
+
+}
+
 
 Servo servo;
 
