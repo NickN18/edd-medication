@@ -13,8 +13,8 @@ LiquidCrystal_I2C lcd(0x3F, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 RTC_DS1307 RTC;
 
 const int DS1307 = 0x68;
-const int lightAlarm = 6; // sets the led to pin 6
-const int selectButton = 5; //sets a button to have a selection to the timer management
+const int lightAlarmPin = 6; // sets the led to pin 6
+const int selectButtonPin = 5; //sets a button to have a selection to the timer management
 const int nextButtonPin = 4;
 const int upButtonPin = 3;
 const int downButtonPin = 2;
@@ -74,6 +74,22 @@ int posit = 0;
 void setup() {
   // put your setup code here, to run once:
     servo.attach(8);
+    
+    pinMode(lightAlarmPin, OUTPUT);
+    pinMode(alarmSystemPin, OUTPUT);
+    pinMOde(timerForLED, OUTPUT);
+    lcd.begin(16,2);
+    Wire.begin();
+    RTC.begin();
+    Serial.begin(9600);
+    clockRunning();
+    
+    lcd.clear();
+    lcd.on();
+    displayLcdFirstLine(2);
+    readTimeNow();
+    displayTimeNow(2);
+    readAlarm();
 }
 
 void loop() {
@@ -86,6 +102,74 @@ void loop() {
       servo.write(posit);
       delay(15);
     }
-
     
+    /*
+    
+      CODE FOR THE TIMER AND CLOCK TO WORK SEPARATELY
+        This program utilizes a LCD display made by Arduino
+    
+    */
+    
+    
+    key = RUN_CLOCK();
+    lightMahuallyOnOff();
+    lcdLight(); //Turns on the lcd light on demand
+    
+    if ((millis() - clockDisplayCheck) > 500) { //Reading and displaying date and time continuesly every 0.5 seconds 
+      clockRunning();
+      clockDisplayCheck = millis(); //Sets the timer variable
+      readTimeNow(); //Reads the time out of the Real Time Clock
+      displayTimeNow(2);  //Displays the current time and the digit to blink
+      readAlarm(); //Reads the alarm settings out off the EEPROM
+      displayLcdFirstLine( 0);  //Basic display line
+      alarmActivate(); //Sets the alarm
+      timerLightOnOff();
+    }
+    
+    if (selectButton.getSingleDebouncedPress())
+  {
+    lcdDisplayCheck = 0; // lcd back to maximum time
+    lcdLight(); //Turns the lcd on
+    mainKeySelection(); // reads keySelection   ALARM_ON_OFF,ALARM_SEASON,ALARM_SET,CLOCK_SET,RUN_CLOCK,
+    //  lcd.setCursor(0, 0);
+
+    switch (key) {
+      case ALARM_ON_OFF:
+        setTimerOnOff();
+        break;
+
+      case ALARM_SEASON:
+        setTimerPlus();
+        break;
+
+      case ALARM_SET:
+        setHr = alarmHourStop;
+        setMn = alarmMinuteStop;
+        lcd.setCursor(0, 0);
+        lcd.print("Set alarm time  ");
+        presetClockTime(alarmOffSet); //Gives an off-set to the alarm stopping time of 6? hours
+        if (setHr == 12) {  //to prevent the timer passing mid-night
+          setHr = 11;
+          setMn = 59;
+        }
+        saveAlarmSet();
+        //   readAlarm();
+        break;
+
+      case CLOCK_SET:
+        presetClockDate();
+        readTimeNow();  //reading the current time to display in presetClockTime
+        setHr = hr;
+        setMn = mn;
+        lcd.setCursor(0, 0);
+        lcd.print("Set clock time  ");
+        presetClockTime(0); //Time can be set starting at zero. The function is also in use to set the alarm stopping time
+        saveClock();
+        break;
+
+      case AlARM_AUTO:
+        alarmAutoManual();
+        break;
+    }
+  } 
 }
