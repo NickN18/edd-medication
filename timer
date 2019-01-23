@@ -79,6 +79,7 @@ void setup() {
     pinMode(alarmSystemPin, OUTPUT);
     pinMOde(timerForLED, OUTPUT);
     lcd.begin(16,2);
+    lcd.print("Snap!");
     Wire.begin();
     RTC.begin();
     Serial.begin(9600);
@@ -93,9 +94,9 @@ void setup() {
 }
 
 void loop() {
-
-lcd.print("Snap!");
-
+  
+  lcd.setCursor(0, 1);
+  lcd.print(millis() / 1000);
 
 
 /*
