@@ -93,7 +93,14 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+
+lcd.print("Snap!");
+
+
+
+/*
+
+// put your main code here, to run repeatedly:
     for (posit = 0; posit <= 180; posit += 1) {
       servo.write(posit);
       delay(15);
@@ -174,20 +181,13 @@ void loop() {
   } 
 }
 
-void 
+void clockRunning() {
+  
+  
+  
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 
 
