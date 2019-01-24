@@ -1,4 +1,4 @@
-# sdv
+# edd-medication
 
 The purpose of this project is to have a servo be able to be autonomously controlled in accordance
 to whatever day of the week it is, as well a specified time of day. The servo will turn for a certain amount
