@@ -182,11 +182,25 @@ void loop() {
   } 
 }
 
-void clockRunning() {
-  
-  
+void readTimeNow() {
+  DateTime.now = RTC.now();
+  yr = now.year();
+  mo = now.month();
+  dy = now.day();
+  hr = now.hour();
+  mn = now.minunte();
+}
+
+void displayTimeNow(int digitBlink) {
+  char textDT[16];
+  sprintf(textDT, hr, mn, dy, mo, yr);
+  lcd.setCursor(0, 1);
+  lcd.print(textDT);
+  lcd.setCursor(digitBlink, 1);
   
 }
+
+
 
 */
 
