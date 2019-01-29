@@ -15,6 +15,15 @@ void setup() {
   
   if(!RTC.isRunning()) {
     lcd.print("RTC isn't running!");
+    
+    /*
+    ***************************************
+    ***************************************
+    For the code below, utilize just ONCE, then comment out immediately
+    ***************************************
+    ***************************************
+    */
+    
     RTC.adjust(DateTime(__DATE__, __TIME__));
     RTC.adjust(DateTime(2019,1,29,30,0,0));
   }
