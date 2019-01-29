@@ -13,16 +13,18 @@ void setup() {
   lcd.begin(16, 2);
   RTC.begin();
   
+  
+  
   Serial.begin(57600);
-  lcd.setCursor(0, 0);
-  lcd.print("Good Morning " + "!");
+  //lcd.setCursor(0, 0);
+  //lcd.print("Good Morning " + "!");
   
 }
 
 void loop() {
   DateTime now = RTC.now();
   
-  lcd.setCursor(0, 1);
+  lcd.setCursor(0, 0);
   lcd.print(now.hour(), DEC);
   lcd.print(':');
   lcd.print(now.minute(), DEC);
