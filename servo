@@ -1,11 +1,16 @@
 #include <Servo.h>
 
+//Limit Switch connected to Pin 9
+
 Servo myServo;
 
 void setup() {
+  pinMode(7, INPUT);
+  
+
   myServo.attach(6);
   myServo.write(20);
-
+  
 }
 
 
