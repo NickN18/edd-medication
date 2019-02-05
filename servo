@@ -4,9 +4,10 @@
 
 Servo myServo;
 
+
+
 void setup() {
-  pinMode(7, INPUT);
-  
+  pinMode(9, INPUT);
 
   myServo.attach(6);
   myServo.write(20);
@@ -15,6 +16,8 @@ void setup() {
 
 
 void loop() {
+
+
 
 }
 
