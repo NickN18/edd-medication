@@ -14,16 +14,15 @@ void setup() {
   
 }
 
-
 void loop() {
-
-  if(myServo.read() <= 180) {
-    myServo.write(angleSet + 12);
-    
+  if(myServo.read() < 180) {
+    angleSet += 23.5;
+    myServo.write(angleSet);
+    delay(2000);
+  } else if(myServo.read() == 180) {
+    myServo.write(0);
   } else {
     myServo.write(angleSet);
   }
-
-
 
 }
