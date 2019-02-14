@@ -5,10 +5,10 @@
 
 #define HALFSTEP 8
 
-#define motorPin1 7
-#define motorPin2 8
-#define motorPin3 9
-#define motorPin4 10
+#define motorPin1 8
+#define motorPin2 9
+#define motorPin3 10
+#define motorPin4 11
 
 //initializes the stepper motor library on pins 8 through 11
 AccelStepper testStep(HALFSTEP, motorPin1, motorPin2, motorPin3, motorPin4);
