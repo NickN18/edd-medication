@@ -18,12 +18,11 @@ int stepCount = 0;
 void setup() {
   // put your setup code here, to run once:
 
-  testStep.setMaxSpeed(10000.0);
+  testStep.setMaxSpeed(1000.0);
   testStep.setAcceleration(400.0);
-  testStep.setSpeed(1000);
-  testStep.moveTo(20000);
+  testStep.setSpeed(50);
+  testStep.moveTo(680.0);
 
-  
 }
 
 void loop() {
