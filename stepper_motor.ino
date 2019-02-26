@@ -31,9 +31,17 @@ void loop() {
     testStep.moveTo(-testStep.currentPosition());
   }
 
-testStep.run();
+if(stepCount < 8) {
+  testStep.run();
+  stepCount++;
+} else (
+  testStep.moveTo(0.0);
+  stepCount = 0;
+  testStep.run();
+}
   
-/*  
+  
+ /*  
   
   int sensorReading = analogRead(A0);
 
