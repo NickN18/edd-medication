@@ -1,0 +1,41 @@
+#include <RTClib.h>
+#include <StepperMotor.h>
+
+StepperMotor motor(6,8,9,10);
+
+int last_hour = 0;
+
+RTC_DS1307 rtc;
+
+void setup(){
+
+}
+
+void step() {
+   static int lastStep = 0;
+   switch(lastStep)
+   {
+      case 0:
+       motor.step(-1000); //first move of a stepper motor 
+         break;
+      case 1:
+        motor.step(1000);//second move of stepper motor to the initial position after 8 hours
+         break;
+   }
+   
+   lastStep++;
+   
+   if(lastStep > 1) {
+     lastStep = 0;
+    }
+}
+
+void loop() {
+  
+    DateTime now = rtc.now();
+  
+    if(now.hour() != last_hour && now.hour() % 8 == 0){  // every 8 hours
+      step() ;
+      last_hour = now.hour() ;
+    }
+}
