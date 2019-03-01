@@ -1,3 +1,5 @@
+https://www.airspayce.com/mikem/arduino/AccelStepper/classAccelStepper.html#a748665c3962e66fbc0e9373eb14c69c1
+
 #include <Stepper.h>
 #include <AccelStepper.h>
 
@@ -18,17 +20,17 @@ int stepCount = 0;
 void setup() {
   // put your setup code here, to run once:
 
-  testStep.setMaxSpeed(1000.0);
-  testStep.setAcceleration(400.0);
-  testStep.setSpeed(50);
+  testStep.setMaxSpeed(1.0);
+  testStep.setAcceleration(0.5);
   testStep.moveTo(680.0);
+  testStep.setSpeed(50);
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   if(testStep.distanceToGo() == 0) {
-    testStep.moveTo(-testStep.currentPosition());
+    testStep.moveTo(0.0);
   }
 
 if(stepCount < 8) {
