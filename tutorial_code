@@ -1,0 +1,20 @@
+https://www.youtube.com/watch?v=MScMUaWcIH0
+
+#include <Stepper.h>
+
+#define Steps 2038
+
+Stepper stepmotor(Steps, 8, 9, 10, 11);
+
+void setup() {
+
+}
+
+void loop() {
+
+  stepmotor.setSpeed(1); //sets rpm to 1 rpm
+  stepmotor.step(254.75); //does 254.75 steps per minute (1/8 of a full revolution)
+  delay(1000);
+
+}
+
