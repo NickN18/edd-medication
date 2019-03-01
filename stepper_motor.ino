@@ -1,5 +1,3 @@
-https://www.airspayce.com/mikem/arduino/AccelStepper/classAccelStepper.html#a748665c3962e66fbc0e9373eb14c69c1
-
 #include <Stepper.h>
 #include <AccelStepper.h>
 
@@ -16,34 +14,34 @@ https://www.airspayce.com/mikem/arduino/AccelStepper/classAccelStepper.html#a748
 AccelStepper testStep(HALFSTEP, motorPin1, motorPin2, motorPin3, motorPin4);
 
 int stepCount = 0;
+int revolution = 4096/2;
 
 void setup() {
   // put your setup code here, to run once:
-
-  testStep.setMaxSpeed(1000.0);
-  testStep.setAcceleration(100.0);
-  testStep.moveTo(680.0);
+  Serial.begin(9600);
+  
+  testStep.setMaxSpeed(10000.0);
+  testStep.setAcceleration(1000.0);
   testStep.setSpeed(50);
+  testStep.moveTo(revolution/8); // 1/8 of a full revolution
 
 }
 
 void loop() {
+  Serial.println(testStep.currentPosition());
   // put your main code here, to run repeatedly:
   if(testStep.distanceToGo() == 0) {
-    testStep.moveTo(0.0);
-  }
+    
+    testStep.moveTo(-testStep.currentPosition());
+   }
 
-if(stepCount < 8) {
-  testStep.run();
-  stepCount++;
-} else (
-  testStep.moveTo(0.0);
-  stepCount = 0;
-  testStep.run();
-}
-  
-  
- /*  
+    testStep.run();
+
+
+
+
+
+/*  
   
   int sensorReading = analogRead(A0);
 
