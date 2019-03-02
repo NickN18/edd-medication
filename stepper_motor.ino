@@ -1,5 +1,6 @@
-#include <Stepper.h>
+// AccelStepper - Version: Latest 
 #include <AccelStepper.h>
+#include <MultiStepper.h>
 
 //const int stepsPerRev = 200; //change to fit the number of steps per revolution for motor
 
@@ -13,30 +14,41 @@
 //initializes the stepper motor library on pins 8 through 11
 AccelStepper testStep(HALFSTEP, motorPin1, motorPin2, motorPin3, motorPin4);
 
-int stepCount = 0;
-int revolution = 4096/2;
+int revCheck = 0; //0 for no revolution done, 1 for a revolution made
+int revolution = 4096/2; // revolution measure
 
 void setup() {
   // put your setup code here, to run once:
+  
   Serial.begin(9600);
   
   testStep.setMaxSpeed(10000.0);
   testStep.setAcceleration(1000.0);
   testStep.setSpeed(50);
-  testStep.moveTo(revolution/8); // 1/8 of a full revolution
+  testStep.moveTo(revolution/4); // 1/8 of a full revolution
 
 }
 
 void loop() {
+  //prints the current position of the motor to the Serial monitor
   Serial.println(testStep.currentPosition());
-  // put your main code here, to run repeatedly:
-  if(testStep.distanceToGo() == 0) {
+
+  testStep.run();
+  
+  while(revCheck == 0) {
+    if(testStep.currentPosition() == 2038 && revCheck == 1) {
+      testStep.moveTo(0.0);
+      revCheck = 0;
+    } else {
+      if(testStep.distanceToGo() == 0) {
+        testStep.stop();
+      } else {
+        testStep.run();
+      }
+    }
+  }  
     
-    testStep.moveTo(-testStep.currentPosition());
-   }
-
-    testStep.run();
-
+  Serial.println(testStep.currentPosition());
 
 
 
@@ -44,14 +56,10 @@ void loop() {
 /*  
   
   int sensorReading = analogRead(A0);
-
   int motorSpeed = map(sensorReading, 0, 1023, 0, 100);
-
   if(motorSpeed > 0) {
     testStep.setSpeed(motorSpeed);
-
     testStep.step(stepsPerRev / 100);
   }
-
 */ 
 }
