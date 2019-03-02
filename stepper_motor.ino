@@ -1,3 +1,4 @@
+
 // AccelStepper - Version: Latest 
 #include <AccelStepper.h>
 #include <MultiStepper.h>
@@ -5,6 +6,8 @@
 //const int stepsPerRev = 200; //change to fit the number of steps per revolution for motor
 
 #define HALFSTEP 8
+
+#define limitPin 7
 
 #define motorPin1 8
 #define motorPin2 9
@@ -21,6 +24,8 @@ void setup() {
   // put your setup code here, to run once:
   
   Serial.begin(9600);
+  
+  pinMode(limitPin, INPUT);
   
   testStep.setMaxSpeed(10000.0);
   testStep.setAcceleration(1000.0);
@@ -47,6 +52,7 @@ void loop() {
       }
     }
   }  
+
     
   Serial.println(testStep.currentPosition());
 
