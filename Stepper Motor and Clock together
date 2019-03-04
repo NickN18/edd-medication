@@ -16,7 +16,7 @@ const int limitPin = 7;
 int limitState = 0;
 
 int hour = 19;
-int min = 26;
+int min;
 int sec;
 int flag;
 int TIME = 1000;
@@ -26,14 +26,14 @@ unsigned long now = 0;
 //initializes the stepper motor library on pins 8 through 11
 AccelStepper testStep(HALFSTEP, motorPin1, motorPin2, motorPin3, motorPin4);
 
-int revCheck = 0; //checks how many times the motor has moved, so that it can "reset"
+int revCheck = 0; //0 for no revolution done, 1 for a revolution made
 int revolution = 4096/2; // revolution measure
 
 void setup() {
+  // put your setup code here, to run once:
+  
   Serial.begin(9600);
   
-  
-  //sets up the limit switch
   pinMode(limitPin, INPUT);
   
   testStep.setMaxSpeed(10000.0);
@@ -46,17 +46,6 @@ void setup() {
 void loop() {
   
   stepMotor();
-
-  /*
-  ********************************************  
-  ********************************************
-  The use of the millis() function is imperative to the clock actually working.
-  Millis() takes the time since the program was uploaded. Here it is used to keep an accurate measurement
-  of time. "Delays" the timeClock program by 1 second every time (intentional). I say "delays" because if delay
-  used instead, the stepMotor() function would not be able to run independently of the timeClock's delay
-  ********************************************
-  ********************************************
-  */
   
   if(millis() > now + TIME) {
     now = millis();
@@ -126,7 +115,8 @@ void timeClock() {
   if(hour == 13) {
     hour = 1;
   }  
-
+  
+  
 }
 
 
@@ -134,16 +124,22 @@ void stepMotor() {
 
   limitState = digitalRead(limitPin);
 
-  testStep.run();
-
-  for(revCheck = 0; revCheck < 8; revCheck++){
-    if(revCheck != 8) {
-      testStep.run(); 
-    } else if(revCheck == 8){
-      testStep.stop();
-      revCheck = 0;
-    }
-
+  
+  if(sec == 10) {
+    testStep.run();
   }
   
+  
+  //for(revCheck = 0; revCheck < 8; revCheck++){
+    //if(revCheck != 8 && min == 1) {
+      //testStep.run(); 
+    //} else if(revCheck == 8){
+      //testStep.stop();
+      //revCheck = 0;
+    //}
+
+  //}
+  
 }
+
+
