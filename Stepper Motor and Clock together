@@ -15,9 +15,9 @@ const int limitPin = 7;
 
 int limitState = 0;
 
-int hour = 19;
-int min;
-int sec;
+int hour = 23;
+int min = 59;
+int sec = 50;
 int flag;
 int TIME = 1000;
 
@@ -112,8 +112,8 @@ void timeClock() {
     flag += 1;
   }
   
-  if(hour == 13) {
-    hour = 1;
+  if(hour == 24) {
+    hour = 0;
   }  
   
   
@@ -125,7 +125,7 @@ void stepMotor() {
   limitState = digitalRead(limitPin);
 
   
-  if(sec == 10) {
+  if(hour == 0 && min == 1) {
     testStep.run();
   }
   
