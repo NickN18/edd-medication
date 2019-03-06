@@ -40,6 +40,22 @@ void setup() {
   
   Serial.begin(9600);
   
+  Serial.begin(115200);
+  
+  Wifi.begin("network-name", "pass-to-network");
+  
+  Serial.print("Connecting");
+  
+  while(Wifi.status() != WL_CONNECTED) {
+    delay(750);
+    Serial.print(".");
+  }
+  
+  Serial.println();
+
+  Serial.print("Connected, IP address: ");
+  Serial.println(WiFi.localIP());
+  
   pinMode(limitPin, INPUT);
   
   testStep.setMaxSpeed(10000.0);
