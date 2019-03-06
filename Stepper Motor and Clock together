@@ -1,4 +1,10 @@
+//Library used for connecting to the wifi
+//https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/readme.html#introduction
+
+#include <ESP8266WIFI.h>
+
 // AccelStepper - Version: Latest 
+
 #include <AccelStepper.h>
 #include <MultiStepper.h>
 
