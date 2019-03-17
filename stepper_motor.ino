@@ -13,8 +13,6 @@
 
 ESP8266WifiMulti WifiMulti;
 
-int val = 0;
-
 #define HALFSTEP 8
 
 const int limitPin = 7;
@@ -62,25 +60,53 @@ void setup() {
 }
 
 void loop() {
-  //prints the current position of the motor to the Serial monitor
-  Serial.println(testStep.currentPosition());
+  
+  userTime = digitalRead(doorStatusInput);
+  Serial.print(userTime);
+  Serial.println();
+  String myString = "https://edd-medicine-dispenser-1-epicslayer18.c9users.io/medication-dispenser/selectMedication.php";
+  String finalString = myString + userTime;
+  Serial.print(finalString);
+  
+  if ((WiFiMulti.run() == WL_CONNECTED)) {
+  Serial.print(userTime);
+    WiFiClient client;
 
+    HTTPClient http;
+
+    Serial.print("[HTTP] begin...\n");
+    if (http.begin(client, finalString)) {  // HTTP
+
+
+      Serial.print("[HTTP] GET...\n");
+      // start connection and send HTTP header
+      int httpCode = http.GET();
+
+      // httpCode will be negative on error
+      if (httpCode > 0) {
+        // HTTP header has been send and Server response header has been handled
+        Serial.printf("[HTTP] GET... code: %d\n", httpCode);
+
+        // file found at server
+        if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {
+          String payload = http.getString();
+          Serial.println(payload);
+        }
+      } else {
+        Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+      }
+
+      http.end();
+    } else {
+      Serial.printf("[HTTP} Unable to connect\n");
+    }
+  }
+
+  delay(1000);
+ 
+  
   testStep.run();
   
-  while(revCheck == 0) {
-    if(testStep.currentPosition() == 2038 && revCheck == 1) {
-      testStep.moveTo(0.0);
-      revCheck = 0;
-    } else {
-      if(testStep.distanceToGo() == 0) {
-        testStep.stop();
-      } else {
-        testStep.run();
-      }
-    }
-  }  
-
-
 /*  
   
   int sensorReading = analogRead(A0);
