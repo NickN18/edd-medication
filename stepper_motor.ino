@@ -3,11 +3,23 @@
 #include <AccelStepper.h>
 #include <MultiStepper.h>
 
+#include <ESP8266Wifi.h>
+#include <Arduino.h>
+#include <ESP8266WifiMulti.h>
+#include <ESP8266HTTPClient.h>
+#include <WifiClient.h>
+
 //const int stepsPerRev = 200; //change to fit the number of steps per revolution for motor
+
+ESP8266WifiMulti WifiMulti;
+
+int val = 0;
 
 #define HALFSTEP 8
 
-#define limitPin 7
+const int limitPin = 7;
+
+int limitState = 0;
 
 #define motorPin1 8
 #define motorPin2 9
@@ -20,10 +32,25 @@ AccelStepper testStep(HALFSTEP, motorPin1, motorPin2, motorPin3, motorPin4);
 int revCheck = 0; //0 for no revolution done, 1 for a revolution made
 int revolution = 4096/2; // revolution measure
 
+int userTime;
+
 void setup() {
   // put your setup code here, to run once:
   
-  Serial.begin(9600);
+  Serial.begin(115200);
+  
+  Serial.println();
+  Serial.println();
+  Serial.println();
+  
+  for (uint8_t t = 4; t > 0; t--) {
+    Serial.printf("[SETUP] WAIT %d...\n", t);
+    Serial.flush();
+    delay(1000);
+  }
+  
+  Wifi.mode(WIFI_STA);
+  WifiMulti.addAP("Noriega5-5G", "Alexandria288");
   
   pinMode(limitPin, INPUT);
   
@@ -52,11 +79,6 @@ void loop() {
       }
     }
   }  
-
-    
-  Serial.println(testStep.currentPosition());
-
-
 
 
 /*  
