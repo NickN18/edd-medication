@@ -14,13 +14,9 @@
 
 ESP8266WiFiMulti WiFiMulti;
 
-int doorStatusOutput = 3;
-int doorStatusInput = 2;
 int val = 0;
-void setup() {
 
-pinMode(doorStatusOutput, OUTPUT);
-pinMode(doorStatusInput, INPUT);
+void setup() {
   Serial.begin(115200);
   // Serial.setDebugOutput(true);
 
@@ -33,7 +29,6 @@ pinMode(doorStatusInput, INPUT);
     Serial.flush();
     delay(1000);
   }
-
   WiFi.mode(WIFI_STA);
   WiFiMulti.addAP("Galaxy S9", "calculus");
 
