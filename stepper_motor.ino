@@ -61,7 +61,7 @@ void setup() {
 
 void loop() {
   
-  userTime = digitalRead(doorStatusInput);
+  userTime = digitalRead(limitState);
   Serial.print(userTime);
   Serial.println();
   String myString = "https://edd-medicine-dispenser-1-epicslayer18.c9users.io/medication-dispenser/selectMedication.php";
