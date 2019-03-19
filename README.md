@@ -6,3 +6,6 @@ of time, then stop. The servo WILL NOT move until the next time and date that is
 there are no near-future plans to have a website where data could be entered to select a day and time, repeating if
 necessary, for customization. If there is extra time, a website will be included using PHP, MySQL, and Javascript to send
 data to the Arduino so that it can utilize user input for unique persons and their corresponding products.
+
+
+A website has been created that interacts directly with the arduino and its complimenting components. This website allows users to create an "account" and keep track of their weekly medication dispensing, including dosages, the names of the medications, the days each medication should be taken, and a daily time that the arduino will be activated and utilize the time that the user has set to have their medications dispensed. (3/18/19)
