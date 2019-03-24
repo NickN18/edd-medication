@@ -3,12 +3,9 @@
 #include <AccelStepper.h>
 #include <MultiStepper.h>
 
-//const int stepsPerRev = 200; //change to fit the number of steps per revolution for motor
-
-#define HALFSTEP 8
-
 const int limitPin = 7;
 
+#define HALFSTEP 8
 #define motorPin1 8
 #define motorPin2 9
 #define motorPin3 10
@@ -27,12 +24,10 @@ unsigned long now = 0;
 //initializes the stepper motor library on pins 8 through 11
 AccelStepper testStep(HALFSTEP, motorPin1, motorPin2, motorPin3, motorPin4);
 
-int revCheck = 0; //0 for no revolution done, 1 for a revolution made
 int revolution = 4096/2; // revolution measure
 
 void setup() {
-  // put your setup code here, to run once:
-  
+
   Serial.begin(9600);
   
   pinMode(limitPin, INPUT);
@@ -116,7 +111,6 @@ void timeClock() {
   }  
 }
 
-
 void stepMotor() {
 
   limitState = digitalRead(limitPin);
@@ -125,5 +119,3 @@ void stepMotor() {
     testStep.run();
   } 
 }
-
-
