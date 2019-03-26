@@ -9,3 +9,6 @@ data to the Arduino so that it can utilize user input for unique persons and the
 
 
 A website has been created that interacts directly with the arduino and its complimenting components. This website allows users to create an "account" and keep track of their weekly medication dispensing, including dosages, the names of the medications, the days each medication should be taken, and a daily time that the arduino will be activated and utilize the time that the user has set to have their medications dispensed. (3/18/19)
+
+
+The website, while still functional with the program, will no longer be utilized in tandem completely with the arduino. The arduino will be in charge of keeping time and dispensing the medication after a certain amount of time. (3/26/19)
