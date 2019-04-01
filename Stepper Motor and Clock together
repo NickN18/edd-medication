@@ -2,6 +2,7 @@
 
 #include <AccelStepper.h>
 #include <MultiStepper.h>
+#include <DS3231.h>
 
 const int limitPin = 7;
 
@@ -21,6 +22,8 @@ int TIME = 1000;
 
 unsigned long now = 0;
 
+DS3231 rtc(SDA, SCL);
+
 //initializes the stepper motor library on pins 8 through 11
 AccelStepper testStep(HALFSTEP, motorPin1, motorPin2, motorPin3, motorPin4);
 
@@ -29,6 +32,8 @@ int revolution = 4096/2; // revolution measure
 void setup() {
 
   Serial.begin(9600);
+  
+  rtc.begin();
   
   pinMode(limitPin, INPUT);
   
