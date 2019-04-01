@@ -14,13 +14,9 @@ const int limitPin = 7;
 
 int limitState = 0;
 
-int hour = 23;
-int min = 59;
-int sec = 50;
-int flag;
 int TIME = 1000;
 
-unsigned long now = 0;
+unsigned long nowT = 0;
 
 DS3231 rtc(SDA, SCL);
 
@@ -48,72 +44,14 @@ void loop() {
   
   stepMotor();
   
-  if(millis() > now + TIME) {
+  if(millis() > nowT + TIME) {
     now = millis();
     timeClock();
   }  
 }
 
 void timeClock() {
-  
-  sec += 1;
-  Serial.println(" ");
-  Serial.print(hour);
-  Serial.print(":");
-  Serial.print(min);
-  Serial.print(":");
-  Serial.print(sec);
-  
-  switch(hour) {
-    case 0: 
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-    case 10:
-    case 11:
-      Serial.print(" AM");
-      break;
     
-    case 12: 
-    case 13: 
-    case 14: 
-    case 15: 
-    case 16: 
-    case 17: 
-    case 18:
-    case 19:
-    case 20:
-    case 21:
-    case 22:
-    case 23:
-      Serial.print(" PM");
-      break;
-    
-    case 24:
-      Serial.print(" AM");
-      flag = 0;
-  }
-  
-  if(sec == 60) {
-    sec = 0;
-    min += 1;
-  }
-  
-  if(min == 60) {
-    min = 0;
-    hour += 1;
-    flag += 1;
-  }
-  
-  if(hour == 24) {
-    hour = 0;
-  }  
 }
 
 void stepMotor() {
