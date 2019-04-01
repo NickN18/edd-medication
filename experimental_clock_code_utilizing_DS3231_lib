@@ -1,23 +1,19 @@
 //https://howtomechatronics.com/tutorials/arduino/arduino-ds3231-real-time-clock-tutorial
 
 #include <DS3231.h>
-#include <LiquidCrystal.h> // includes the LiquidCrystal Library 
 
 DS3231  rtc(SDA, SCL);
 
-const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7); // Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7) 
-
 void setup() {
+ Serial.begin(9600);
+
  rtc.begin(); // Initialize the rtc object
- lcd.begin(16,2); // Initializes the interface to the LCD screen, and specifies the dimensions (WxH) of the display 
  
 }
 
 void loop() { 
- lcd.setCursor(0,0);
- lcd.print(rtc.getTimeStr());
- 
+ Serial.print(rtc.getTimeStr());
+
  delay(1000); 
  
 }
