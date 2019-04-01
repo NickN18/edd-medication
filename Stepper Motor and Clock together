@@ -18,7 +18,10 @@ int TIME = 1000;
 
 unsigned long nowT = 0;
 
-DS3231 rtc(SDA, SCL);
+DS3231 rtc;
+
+bool h12;
+bool PM;
 
 //initializes the stepper motor library on pins 8 through 11
 AccelStepper testStep(HALFSTEP, motorPin1, motorPin2, motorPin3, motorPin4);
@@ -51,6 +54,7 @@ void loop() {
 }
 
 void timeClock() {
+    Serial.print(rtc.getHour(), DEC);
     
 }
 
