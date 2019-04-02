@@ -1,7 +1,7 @@
 #include <AccelStepper.h>
 #include <MultiStepper.h>
 #include <Wire.h>
-#include <DS3231.h>
+#include "RTClib.h"
 
 const int limitPin = 7;
 
@@ -18,10 +18,7 @@ int TIME = 1000;
 
 unsigned long nowT = 0;
 
-DS3231 rtc;
-
-bool h12;
-bool PM;
+RTC_DS3231 rtc;
 
 //initializes the stepper motor library on pins 8 through 11
 AccelStepper testStep(HALFSTEP, motorPin1, motorPin2, motorPin3, motorPin4);
@@ -33,8 +30,24 @@ int revolution = 4096/2; // revolution measure
 void setup() {
   Wire.begin();
   
-  Serial.begin(9600); 
-  
+  Serial.begin(9600);
+
+  delay(3000); //wait for the console to open
+
+  if (! rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+    while (1);
+  }
+
+  if (rtc.lostPower()) {
+    Serial.println("RTC lost power, lets set the time!");
+    // following line sets the RTC to the date & time this sketch was compiled
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    // This line sets the RTC with an explicit date & time, for example to set
+    // January 21, 2014 at 3am you would call:
+    // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
+  }
+
   pinMode(limitPin, INPUT);
   
   testStep.setMaxSpeed(10000.0);
@@ -44,7 +57,7 @@ void setup() {
 }
 
 void loop() {
-  
+    
   stepMotor();
   
   if(millis() > nowT + TIME) {
@@ -54,30 +67,23 @@ void loop() {
 }
 
 void timeClock() {
+    DateTime now = rtc.now();
 
-  Serial.print(rtc.getHour(h12, PM), DEC);
-  Serial.print(' ');
-  Serial.print(rtc.getMinute());
-  Serial.print(' ');
-  Serial.print(rtc.getSecond());
-
-  if (h12) {
-    if (PM) {
-      Serial.print(" PM ");
-    } else {
-      Serial.print(" AM ");
-    }
-  } else {
-    Serial.print(" 24h ");
-  }
-  
+    Serial.print(now.hour(), DEC);
+    Serial.print(':');
+    Serial.print(now.minute(), DEC);
+    Serial.print(':');
+    Serial.print(now.second(), DEC);
+    
+    Serial.println();
 }
 
 void stepMotor() {
+  DateTime now = rtc.now();
 
   limitState = digitalRead(limitPin);
   
-  if(rtc.getMinute() == 52) {
+  if(now.minute() == 20) {
     testStep.run();
   }
   
