@@ -1,7 +1,6 @@
-// AccelStepper - Version: Latest 
-
 #include <AccelStepper.h>
 #include <MultiStepper.h>
+#include <Wire.h>
 #include <DS3231.h>
 
 const int limitPin = 7;
@@ -14,113 +13,72 @@ const int limitPin = 7;
 
 int limitState = 0;
 
-int hour = 23;
-int min = 59;
-int sec = 50;
 int flag;
 int TIME = 1000;
 
-unsigned long now = 0;
+unsigned long nowT = 0;
 
-DS3231 rtc(SDA, SCL);
+DS3231 rtc;
+
+bool h12;
+bool PM;
 
 //initializes the stepper motor library on pins 8 through 11
 AccelStepper testStep(HALFSTEP, motorPin1, motorPin2, motorPin3, motorPin4);
 
+int revCheck = 0; //0 for no revolution done, 1 for a revolution made
 int revolution = 4096/2; // revolution measure
 
-void setup() {
 
-  Serial.begin(9600);
+void setup() {
+  Wire.begin();
   
-  rtc.begin();
+  Serial.begin(9600); 
   
   pinMode(limitPin, INPUT);
   
   testStep.setMaxSpeed(10000.0);
   testStep.setAcceleration(1000.0);
-  testStep.setSpeed(50);
+  testStep.setSpeed(50);  
   testStep.moveTo(revolution/4); // 1/8 of a full revolution
-
 }
 
 void loop() {
   
   stepMotor();
   
-  if(millis() > now + TIME) {
-    now = millis();
+  if(millis() > nowT + TIME) {
+    nowT = millis();
     timeClock();
-  }  
+  }
 }
 
 void timeClock() {
-  
-  sec += 1;
-  Serial.println(" ");
-  Serial.print(hour);
-  Serial.print(":");
-  Serial.print(min);
-  Serial.print(":");
-  Serial.print(sec);
-  
-  switch(hour) {
-    case 0: 
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-    case 10:
-    case 11:
-      Serial.print(" AM");
-      break;
-    
-    case 12: 
-    case 13: 
-    case 14: 
-    case 15: 
-    case 16: 
-    case 17: 
-    case 18:
-    case 19:
-    case 20:
-    case 21:
-    case 22:
-    case 23:
-      Serial.print(" PM");
-      break;
-    
-    case 24:
-      Serial.print(" AM");
-      flag = 0;
+
+  Serial.print(rtc.getHour(h12, PM), DEC);
+  Serial.print(' ');
+  Serial.print(rtc.getMinute());
+  Serial.print(' ');
+  Serial.print(rtc.getSecond());
+
+  if (h12) {
+    if (PM) {
+      Serial.print(" PM ");
+    } else {
+      Serial.print(" AM ");
+    }
+  } else {
+    Serial.print(" 24h ");
   }
   
-  if(sec == 60) {
-    sec = 0;
-    min += 1;
-  }
-  
-  if(min == 60) {
-    min = 0;
-    hour += 1;
-    flag += 1;
-  }
-  
-  if(hour == 24) {
-    hour = 0;
-  }  
 }
 
 void stepMotor() {
 
   limitState = digitalRead(limitPin);
-
-  if(hour == 0 && min == 1) {
+  
+  if(rtc.getMinute() == 52) {
     testStep.run();
-  } 
+  }
+  
 }
