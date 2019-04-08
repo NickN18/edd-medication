@@ -82,9 +82,22 @@ void stepMotor() {
   DateTime now = rtc.now();
 
   limitState = digitalRead(limitPin);
-  
-  if(now.hour() == 11 && now.minute() == 45) {
+
+  if(now.second() == 5) {
     testStep.run();
-  }
+  } 
+
+
+  
+  //if(now.hour() == 7 && now.minute() == 0) {
+  //  testStep.run();
+  //}
+
+ // if(now.hour() == 6 && now.minute() == 1 || now.minute() == 3) {
+ //   testStep.run();
+ // }
   
 }
+
+
+
