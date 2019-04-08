@@ -83,7 +83,7 @@ void stepMotor() {
 
   limitState = digitalRead(limitPin);
   
-  if(now.minute() == 20) {
+  if(now.hour() == 11 && now.minute() == 45) {
     testStep.run();
   }
   
