@@ -7,6 +7,7 @@
 RTC_DS3231 rtc;
 
 const int limitPin = 7;
+const int lightPin = 2;
 
 #define HALFSTEP 8
 #define motorPin1 8
@@ -21,7 +22,7 @@ int TIME = 1000;
 
 unsigned long nowT = 0;
 
-const int stepsPerRev = 200;
+const int stepsPerRev = 250;
 
 Stepper testStepper(stepsPerRev, motorPin1, motorPin2, motorPin3, motorPin4);
 
@@ -54,13 +55,14 @@ void setup() {
   }
 
   pinMode(limitPin, INPUT);
+  pinMode(lightPin, OUTPUT);
   
   testStep.setMaxSpeed(10000.0);
   testStep.setAcceleration(1000.0);
   //testStep.setSpeed(25);  
   testStep.moveTo(revolution); // 1/8 of a full revolution
 
-  testStepper.setSpeed(63);
+  testStepper.setSpeed(59.99995);
 }
 
 void loop() {
@@ -91,28 +93,21 @@ void stepMotor() {
 
   limitState = digitalRead(limitPin);
 
-  if(now.second() == 5) {
-    //testStep.run();
+  if(now.second() == 5 && limitState == HIGH) {
     testStepper.step(stepsPerRev);
-  } else if(now.second() == 15) {
-    //testStep.run();
+  } else if(now.second() == 15 && limitState == HIGH) {
     testStepper.step(stepsPerRev);
-  } else if(now.second() == 25) {
-    //testStep.run();
+  } else if(now.second() == 25 && limitState == HIGH) {
     testStepper.step(stepsPerRev);
-  } else if(now.second() == 35) {
-    //testStep.run();
+  } else if(now.second() == 35 && limitState == HIGH) {
     testStepper.step(stepsPerRev);
-  } else if(now.second() == 45) {
-    //testStep.run();
+  } else if(now.second() == 45 && limitState == HIGH) {
     testStepper.step(stepsPerRev);
-  } else if(now.second() == 55) {
-    //testStep.run();
+  } else if(now.second() == 55 && limitState == HIGH) {
     testStepper.step(stepsPerRev);
   } else {
     testStep.stop();
   }
 
 }
-
 
