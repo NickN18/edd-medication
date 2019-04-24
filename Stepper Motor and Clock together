@@ -22,7 +22,7 @@ int TIME = 1000;
 
 unsigned long nowT = 0;
 
-const int stepsPerRev = 250;
+const int stepsPerRev = 255;
 
 Stepper testStepper(stepsPerRev, motorPin1, motorPin2, motorPin3, motorPin4);
 
